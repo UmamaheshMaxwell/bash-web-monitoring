@@ -1,0 +1,23 @@
+# Install Sendmail
+sudo yum install -y sendmail
+
+# Start and Enable Sendmail Service
+sudo systemctl start sendmail
+sudo systemctl enable sendmail
+
+# Configure Sendmail
+sudo vi /etc/mail/sendmail.mc
+
+Locate the line dnl define(SMART_HOST', smtp.your.provider') dnl 
+and uncomment it (remove dnl at the beginning) to specify your SMTP server. 
+Replace smtp.your.provider with your SMTP server's address.
+
+# Generate Configuration
+After making changes to the sendmail.mc file, generate the sendmail.cf configuration file
+sudo m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+
+# Restart Sendmail Service
+sudo systemctl restart sendmail
+
+# Test Configuration
+echo "This is a test email" | mail -s "Test SendMail" admin@admin.com
